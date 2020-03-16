@@ -159,11 +159,32 @@ const styles = [
   }
 ];
 
+const defaultLatLng = {
+  latitude:  40.7128,
+  longitude: -74.0060
+};
+
 var map = null;
 
-function initMap(lat = 40.7128, lng = -74.0060) {
+async function fetchLatLng() {
+  try {
+    const rsp = await fetch('https://location.renaudrey.ca/v1/latest');
+    if (!rsp.ok) {
+      const err = await rsp.text();
+      console.error(`Failed to fetch lat/lng: [${rsp.status}] ${err}`);
+      return defaultLatLng;
+    }
+    return await rsp.json();
+  } catch (e) {
+    console.error(`Failed to fetch lat/lng: ${e}`);
+    return defaultLatLng;
+  }
+}
+
+async function initMap() {
+  const latLng = await fetchLatLng();
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: lat, lng: lng},
+    center: {lat: latLng.latitude, lng: latLng.longitude},
     zoom: 10,
     mapTypeId: 'terrain',
     styles: styles,
