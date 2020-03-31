@@ -189,5 +189,6 @@ async function initMap() {
     mapTypeId: 'terrain',
     styles: styles,
     disableDefaultUI: true,
+    backgroundColor: '#c9c9c9',
   });
 }

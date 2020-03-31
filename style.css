@@ -31,6 +31,7 @@ html, body {
 
 #map {
   height: 50%;
+  background-color: #c9c9c9;
 }
 
 @media screen and (min-width: 768px) {
